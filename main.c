@@ -3,7 +3,8 @@
 
 void string_count(FILE * f)
 {
-    char cur = '_';
+    char cur;
+    fscanf(f, "%c", &cur);
     while ((cur != '\n') && (!feof(f)))
     {
         fscanf(f, "%c", &cur);
@@ -12,7 +13,12 @@ void string_count(FILE * f)
 
 void word_count(FILE * f)
 {
-    char cur = '_';
+    char cur;
+    fscanf(f, "%c", &cur);
+    while (((cur == ' ') || (cur == '\n')) && (!feof(f)))
+    {
+        fscanf(f, "%c", &cur);
+    }
     while ((cur != ' ') && (cur != '\n') && (!feof(f)))
     {
         fscanf(f, "%c", &cur);
@@ -39,6 +45,14 @@ int main(int argc, char * argv[])
        else
           return 1;
        ++cnt;
+    }
+    if ((strcmp(argv[1], "-l") && strcmp(argv[1], "--lines"))  == 0)
+    {
+        char cur;
+        fseek(f, -1, SEEK_END);
+        fscanf(f, "%c", &cur);
+        if (cur == '\n')
+            cnt -= 1;
     }
     printf("%d\n", cnt - 1);
     fclose(f);
