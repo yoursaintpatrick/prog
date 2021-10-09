@@ -1,11 +1,28 @@
 #include <stdio.h>
 #include <string.h>
 
+void string_count(FILE * f)
+{
+    char cur = '_';
+    while ((cur != '\n') && (!feof(f)))
+    {
+        fscanf(f, "%c", &cur);
+    }
+}
+
+void word_count(FILE * f)
+{
+    char cur = '_';
+    while ((cur != ' ') && (cur != '\n') && (!feof(f)))
+    {
+        fscanf(f, "%c", &cur);
+    }
+}
+
 int main(int argc, char * argv[])
 {
     char* fname = argv[argc - 1];
     FILE * f = fopen(fname, "r");
-    char word[20];
     int cnt = 0;
     if ((strcmp(argv[1], "-b")  && strcmp(argv[1], "--bytes")) == 0)
     {
@@ -16,9 +33,9 @@ int main(int argc, char * argv[])
     while (!feof(f))
     {
        if ((strcmp(argv[1], "-l") && strcmp(argv[1], "--lines"))  == 0)
-          fgets(word, 20, f);
+           string_count(f);
        else if ((strcmp(argv[1], "-w")  && strcmp(argv[1], "--words"))== 0)
-          fscanf(f, "%s", word);
+           word_count(f);
        else
           return 1;
        ++cnt;
